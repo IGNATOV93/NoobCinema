@@ -12,12 +12,10 @@ public  class Viewer
         price_of_ticket= price;
         count_of_ticket= count;
         Discount = discount;
-
     }
-
     public double price_of_ticket { get; set; }
     public int count_of_ticket { get; set; }
-    public double discount;
+    private double discount;
     public double Discount
     {
         get { return discount;}
@@ -26,8 +24,6 @@ public  class Viewer
             discount = price_of_ticket*count_of_ticket;
         }
     }
-
-
 }
 
 public class Regular : Viewer
@@ -51,49 +47,67 @@ public class Pensioner : Viewer
     }
 }
 
-public class MainClass
+
+public abstract class calculationOftickets
 {
     public static void Spliting()
     {
-        while (true)
-        {
+        
             Console.WriteLine("Введите вид посетителя,кол-во его посещений,цену билета,сколько билетов покупает");
             string input = Console.ReadLine();
             string[] inputArray = input.Split(" ");
-            string visitor = inputArray[0];
-            if (visitor == "viewer")
-            {
-                Viewer viewer = new Viewer(double.Parse(inputArray[2]), int.Parse(inputArray[3]));
-                Console.WriteLine(viewer.discount); 
+            MakingOFvisitor(inputArray);
+    }
 
-            }
-            //
-            if (visitor == "regular")
-            {
-         //       Regular regular = new Regular();
+    public static void MakingOFvisitor(string[] inputArray)
+    {
+        string visitor = inputArray[0];
+        if (visitor == "viewer")
+        {
+            Viewer viewer = new Viewer(double.Parse(inputArray[2]), int.Parse(inputArray[3]));
+           // Console.WriteLine(viewer.discount);
+           Print(viewer);
 
+        }
+        //
+        if (visitor == "regular")
+        {
+            //       Regular regular = new Regular();
 
-            }
-
-            if (visitor == "student")
-            {
-        //        Student student= new Student();
-            }
-
-            if (visitor == "pensioner")
-            {
-         //       Pensioner pensioner= new Pensioner();
-            }
 
         }
 
+        if (visitor == "student")
+        {
+            //        Student student= new Student();
+        }
+
+        if (visitor == "pensioner")
+        {
+            //       Pensioner pensioner= new Pensioner();
+        }
     }
+
+    public static void Print(Viewer viewer)
+    {
+        Console.WriteLine(viewer.Discount);
+    }
+
+}
+
+
+public class MainClass
+{
+    
 
 
 
     public static void Main()
     {
-        Spliting();
+        while (true)
+        {
+            calculationOftickets.Spliting();
+        }
     }
 }
 
