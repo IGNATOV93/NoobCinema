@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -29,12 +30,12 @@ public class Regular : Viewer
 {
   public int numberOFvisits { get; set; }
 
-    public Regular(int numberOFvisits,double price, int count) : base(price, count)
+    public Regular(int numberOFvisits, double price, int count) : base(price, count)
     {
         discount = CalcOFtickets(numberOFvisits,price,count);
     }
 
-    public static double CalcOFtickets(int wasCountTickets,double buyCountTicket, int priceOFticket)
+    public  virtual double CalcOFtickets(int wasCountTickets,double buyCountTicket, int priceOFticket)
     {
         
         double summa = 0; 
@@ -55,10 +56,35 @@ public class Regular : Viewer
     }
 }
 
-public class Student : Viewer
+public class Student : Regular
 {
-    public Student(double price, int count, int discount) : base(price, count)
+    public Student(int numberOFvisits, int count,double price) : base(numberOFvisits, price, count)
     {
+        discount = CalcOFtickets(numberOFvisits, price, count);
+    }
+
+    public override double CalcOFtickets(int wasCountTickets, double priceOFticket, int buyCountTicket)
+    {
+        double summa = 0;
+        int wastickets = wasCountTickets;
+        while (wasCountTickets < wastickets + buyCountTicket)
+        {
+            int statsCount = (wasCountTickets + 1) % 3;
+
+            if (statsCount == 0 || statsCount == 1 || statsCount == 2)
+            {
+                summa+= price_of_ticket /2;
+            }
+            else
+            {
+                summa += priceOFticket;
+            }
+
+            wasCountTickets++;
+        }
+
+        return summa;
+
 
     }
 }
@@ -82,6 +108,7 @@ public abstract class calculationOftickets
             MakingOFvisitor(inputArray);
     }
 
+    #region void MakingOFvisitor
     public static void MakingOFvisitor(string[] inputArray)
     {
         string visitor = inputArray[0];
@@ -90,24 +117,26 @@ public abstract class calculationOftickets
             Viewer viewer = new Viewer(double.Parse(inputArray[2]), int.Parse(inputArray[3]));
             Print(viewer);
         }
-        
+
         if (visitor == "regular")
         {
-                  Regular regular = new Regular(int.Parse(inputArray[1]), int.Parse(inputArray[3]),int.Parse(inputArray[2]) );
-                  Print(regular);
+            Regular regular = new Regular(int.Parse(inputArray[1]), int.Parse(inputArray[3]), int.Parse(inputArray[2]));
+            Print(regular);
 
         }
 
         if (visitor == "student")
         {
-            
+            Student student = new Student(int.Parse(inputArray[1]), int.Parse(inputArray[3]), int.Parse(inputArray[2]));
+            Print(student);
         }
 
         if (visitor == "pensioner")
         {
-            
+
         }
-    }
+    } 
+    #endregion
 
     public static void Print(Viewer viewer)
     {
@@ -123,7 +152,7 @@ public class MainClass
     {
         while (true)
         {
-            calculationOftickets.Spliting();
+             calculationOftickets.Spliting();
         }
     }
 }
