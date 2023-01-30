@@ -99,7 +99,6 @@ public class Pensioner : Viewer
 
 public abstract class calculationOftickets
 {
-    public static void Spliting()
     {
         
             Console.WriteLine("Введите вид посетителя,кол-во его посещений,цену билета,сколько билетов покупает");
