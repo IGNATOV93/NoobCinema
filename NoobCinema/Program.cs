@@ -70,8 +70,8 @@ public class Student : Regular
         int wastickets = wasCountTickets;
         while (wasCountTickets < wastickets + buyCountTicket)
         {
-            int statsCount = (wasCountTickets + 1) % 3;
-            if (statsCount == 0 || statsCount == 1 || statsCount == 2) summa += price_of_ticket / 2;
+            bool checkThirdVisit = (wasCountTickets + 1) % 3 != 0;
+            if (!checkThirdVisit) summa += price_of_ticket / 2;
             else summa += priceOFticket;
             wasCountTickets++;
         }
