@@ -113,8 +113,11 @@ public abstract class CalculationOftickets
         while (true)
         {
             // Console.WriteLine("Введите вид посетителя,кол-во его посещений,цену билета,сколько билетов покупает");
-            string[] inputArray = Console.ReadLine().Split(" ");
-            UserIdentification(inputArray);
+            string input = Console.ReadLine();
+            if (input == null) break;
+            string[] inputArray = input.Split(" ");
+                UserIdentification(inputArray);
+           
         }
 
     }
@@ -152,7 +155,8 @@ public abstract class CalculationOftickets
 
     public static void Print(Viewer viewer)
     {
-        Console.WriteLine(viewer.Discount.ToString("#.##"));
+        double a = Math.Round(viewer.Discount, 2);
+        Console.WriteLine(a);
     }
 
 }
