@@ -108,13 +108,12 @@ public class Pensioner : Regular
 #region class CalculationOftickets
 public abstract class CalculationOftickets
 {
-    public static void StartsCalculetion()
+   public  static void StartsCalculetion()
     {
         while (true)
         {
             // Console.WriteLine("Введите вид посетителя,кол-во его посещений,цену билета,сколько билетов покупает");
-            string input = Console.ReadLine();
-            string[] inputArray = input.Split(" ");
+            string[] inputArray = Console.ReadLine().Split(" ");
             UserIdentification(inputArray);
         }
 
