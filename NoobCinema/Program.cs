@@ -7,14 +7,15 @@ using System.Runtime.CompilerServices;
 #region class Viewer
 public class Viewer
 {
-    public Viewer(double price, int count)
+    public Viewer(int count, double price)
     {
         price_of_ticket = price;
         count_of_ticket = count;
         Discount = discount;
     }
-    public double price_of_ticket { get; set; }
     public int count_of_ticket { get; set; }
+    public double price_of_ticket { get; set; }
+    
     public double discount;
     public double Discount
     {
@@ -29,13 +30,13 @@ public class Regular : Viewer
 {
     public int numberOFvisits { get; set; }
 
-    public Regular(int numberOFvisits, double price, int count) : base(price, count)
+    public Regular(int numberOFvisits,int count, double price) : base(count, price)
     {
         discount = CalcOFtickets(numberOFvisits, price, count);
     }
 
 
-    public virtual double CalcOFtickets(int wasCountTickets, double buyCountTicket, int priceOFticket)
+    public virtual double CalcOFtickets(int wasCountTickets, double priceOFticket, int buyCountTicket)
     {
         double summa = 0;
         double price;
@@ -58,7 +59,7 @@ public class Regular : Viewer
 #region class Student
 public class Student : Regular
 {
-    public Student(int numberOFvisits, int count, double price) : base(numberOFvisits, price, count)
+    public Student(int numberOFvisits,  int count,double price) : base(numberOFvisits, count, price)
     {
         discount = CalcOFtickets(numberOFvisits, price, count);
     }
@@ -77,13 +78,14 @@ public class Student : Regular
         }
         return summa;
     }
+    
 }
 #endregion
 
 #region class Pensioner
 public class Pensioner : Regular
 {
-    public Pensioner(int numberOFvisits, int count, double price) : base(numberOFvisits, price, count)
+    public Pensioner(int numberOFvisits,  int count, double price) : base(numberOFvisits, count, price)
     {
         discount = CalcOFtickets(numberOFvisits, price, count);
     }
@@ -126,29 +128,24 @@ public abstract class CalculationOftickets
     public static void UserIdentification(string[] inputArray)
     {
         string visitor = inputArray[0];
+        int wasCount = int.Parse(inputArray[1]);
+        int buyCount = int.Parse(inputArray[2]);
+        int priceTicket = int.Parse(inputArray[3]);
         if (visitor == "viewer")
         {
-            Viewer viewer = new Viewer(double.Parse(inputArray[2]), int.Parse(inputArray[3]));
-            Print(viewer);
+            Viewer viewer = new Viewer(buyCount, priceTicket); Print(viewer);
         }
-
         if (visitor == "regular")
         {
-            Regular regular = new Regular(int.Parse(inputArray[1]), int.Parse(inputArray[3]), int.Parse(inputArray[2]));
-            Print(regular);
-
+            Regular regular = new Regular(wasCount, priceTicket, buyCount); Print(regular);
         }
-
         if (visitor == "student")
         {
-            Student student = new Student(int.Parse(inputArray[1]), int.Parse(inputArray[3]), int.Parse(inputArray[2]));
-            Print(student);
+            Student student = new Student(wasCount, priceTicket, buyCount); Print(student);
         }
-
         if (visitor == "pensioner")
         {
-            Pensioner pensioner = new Pensioner(int.Parse(inputArray[1]), int.Parse(inputArray[3]), int.Parse(inputArray[2]));
-            Print(pensioner);
+            Pensioner pensioner = new Pensioner(wasCount, priceTicket, buyCount);Print(pensioner);
         }
     }
     #endregion
